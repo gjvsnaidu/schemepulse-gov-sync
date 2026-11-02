@@ -1,0 +1,26 @@
+name: Scheme catalogue sync
+
+on:
+  schedule:
+    # Six-hourly best-effort polling; offset away from the top of the hour.
+    - cron: "27 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: schemepulse-catalog-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # Keep disabled until source-specific adapters and a protected app ingest endpoint exist.
+    if: ${{ vars.SCHEME_SYNC_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout automation repository
+        uses: actions/checkout@v5
+      - name: Fail closed until source adapters are configured
+        run: python3 scripts/preflight.py

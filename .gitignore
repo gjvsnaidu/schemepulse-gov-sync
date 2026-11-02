@@ -1,0 +1,7 @@
+# Local source configuration may contain endpoint-specific private metadata.
+sources.json
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
